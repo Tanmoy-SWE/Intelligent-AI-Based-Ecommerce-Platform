@@ -1,0 +1,27 @@
+
+> build
+> next build
+
+   ▲ Next.js 15.3.0-canary.13
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     ✓ ppr
+     ✓ useCache
+     ✓ inlineCss
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./lib/ai/insights-generator.ts:90:26
+Type error: Object is possibly 'undefined'.
+
+[0m [90m 88 |[39m     })[33m;[39m[0m
+[0m [90m 89 |[39m[0m
+[0m[31m[1m>[22m[39m[90m 90 |[39m     [36mconst[39m responseText [33m=[39m completion[33m.[39mchoices[[35m0[39m][33m.[39mmessage[33m.[39mcontent [33m||[39m [32m'{}'[39m[33m;[39m[0m
+[0m [90m    |[39m                          [31m[1m^[22m[39m[0m
+[0m [90m 91 |[39m     [36mconst[39m insights[33m:[39m [33mAIInsights[39m [33m=[39m [33mJSON[39m[33m.[39mparse(responseText)[33m;[39m[0m
+[0m [90m 92 |[39m[0m
+[0m [90m 93 |[39m     [36mreturn[39m insights[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

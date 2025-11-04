@@ -245,7 +245,7 @@ export async function searchProducts(
     const filteredResults = allResults.filter(result => (result.similarity || 0) >= minSimilarity);
 
     console.log(`🔍 Search: "${query}" | Found: ${allResults.length} total, ${filteredResults.length} above threshold (${minSimilarity})`);
-    if (allResults.length > 0) {
+    if (allResults.length > 0 && allResults[0]) {
       console.log(`   Top result: "${allResults[0].metadata.title}" (similarity: ${allResults[0].similarity?.toFixed(3)})`);
     }
 

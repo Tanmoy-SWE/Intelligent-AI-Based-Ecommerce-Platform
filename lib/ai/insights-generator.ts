@@ -87,7 +87,7 @@ Return ONLY valid JSON, no additional text.`;
       response_format: { type: 'json_object' },
     });
 
-    const responseText = completion.choices[0].message.content || '{}';
+    const responseText = completion.choices[0]?.message.content || '{}';
     const insights: AIInsights = JSON.parse(responseText);
 
     return insights;
