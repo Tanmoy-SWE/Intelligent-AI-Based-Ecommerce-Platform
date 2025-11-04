@@ -87,7 +87,7 @@ export async function generateProductEmbedding(product: Product): Promise<Produc
   return {
     productId: product.id,
     productHandle: product.handle,
-    embedding: response.data[0].embedding,
+    embedding: response.data[0]?.embedding || [],
     metadata: {
       title: product.title,
       description: product.description,
@@ -217,7 +217,7 @@ export async function searchProducts(
       input: query,
     });
 
-    const queryEmbedding = queryEmbeddingResponse.data[0].embedding;
+    const queryEmbedding = queryEmbeddingResponse.data[0]?.embedding || [];
 
     // Query Pinecone
     const queryResponse = await index.query({
