@@ -1,12 +1,13 @@
+import { ChatWidget } from 'components/assistant/chat-widget';
 import { CartProvider } from 'components/cart/cart-context';
 import { Navbar } from 'components/layout/navbar';
 import { WelcomeToast } from 'components/welcome-toast';
 import { GeistSans } from 'geist/font/sans';
 import { getCart } from 'lib/shopify';
+import { baseUrl } from 'lib/utils';
 import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import './globals.css';
-import { baseUrl } from 'lib/utils';
 
 const { SITE_NAME } = process.env;
 
@@ -28,7 +29,8 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   // Don't await the fetch, pass the Promise to the context provider
-  const cart = getCart();
+  // Wrap in try-catch to handle Shopify configuration errors gracefully
+  const cart = getCart().catch(() => undefined);
 
   return (
     <html lang="en" className={GeistSans.variable}>
@@ -40,6 +42,7 @@ export default async function RootLayout({
             <Toaster closeButton />
             <WelcomeToast />
           </main>
+          <ChatWidget />
         </CartProvider>
       </body>
     </html>

@@ -42,20 +42,25 @@ function ThreeItemGridItem({
 }
 
 export async function ThreeItemGrid() {
-  // Collections that start with `hidden-*` are hidden from the search page.
-  const homepageItems = await getCollectionProducts({
-    collection: 'hidden-homepage-featured-items'
-  });
+  try {
+    // Collections that start with `hidden-*` are hidden from the search page.
+    const homepageItems = await getCollectionProducts({
+      collection: 'hidden-homepage-featured-items'
+    });
 
-  if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
+    if (!homepageItems[0] || !homepageItems[1] || !homepageItems[2]) return null;
 
-  const [firstProduct, secondProduct, thirdProduct] = homepageItems;
+    const [firstProduct, secondProduct, thirdProduct] = homepageItems;
 
-  return (
-    <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
-      <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={thirdProduct} />
-    </section>
-  );
+    return (
+      <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
+        <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
+        <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
+        <ThreeItemGridItem size="half" item={thirdProduct} />
+      </section>
+    );
+  } catch (error) {
+    console.log('ThreeItemGrid: Shopify not configured or collection not found');
+    return null;
+  }
 }

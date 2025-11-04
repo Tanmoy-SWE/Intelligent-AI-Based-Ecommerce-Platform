@@ -2,11 +2,11 @@
 
 import { TAGS } from 'lib/constants';
 import {
-  addToCart,
-  createCart,
-  getCart,
-  removeFromCart,
-  updateCart
+    addToCart,
+    createCart,
+    getCart,
+    removeFromCart,
+    updateCart
 } from 'lib/shopify';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
@@ -101,6 +101,11 @@ export async function redirectToCheckout() {
 }
 
 export async function createCartAndSetCookie() {
-  let cart = await createCart();
-  (await cookies()).set('cartId', cart.id!);
+  try {
+    let cart = await createCart();
+    (await cookies()).set('cartId', cart.id!);
+  } catch (e) {
+    // Shopify not configured, silently fail
+    console.log('Unable to create cart: Shopify not configured');
+  }
 }
