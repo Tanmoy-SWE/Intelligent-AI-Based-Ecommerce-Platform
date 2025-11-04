@@ -111,13 +111,16 @@ export async function generateAssistantResponse(
   try {
     // Determine if this is a product search query
     const shouldShowProducts = isProductSearchQuery(userMessage);
+    console.log('🔍 Product Search Detection:', { userMessage, shouldShowProducts });
 
     // Search for relevant products with similarity threshold
     // minSimilarity: 0.7 means only return products with 70%+ similarity
     const searchResults = await searchProducts(userMessage, 5, 0.7);
+    console.log('🔍 Search Results:', { count: searchResults.length, results: searchResults.map(r => ({ title: r.metadata.title, similarity: r.similarity })) });
 
     // Only return products if user is actively searching for them
     const relevantProducts = shouldShowProducts ? searchResults : [];
+    console.log('🔍 Relevant Products to Return:', { count: relevantProducts.length });
 
     // Build product context with detailed information
     let productContext = '';
