@@ -81,31 +81,56 @@ For **Style/Pairing Questions** (e.g., "What goes well with dark jeans?"):
 Remember: You're here to help customers make informed decisions and find exactly what they need! 🛍️`;
 
 /**
- * Determine if the user query is asking for product recommendations/search
+ * Use LLM to determine if the user query is asking for product recommendations/search
  */
-function isProductSearchQuery(message: string): boolean {
-  const lowerMessage = message.toLowerCase();
+async function isProductSearchQuery(message: string): Promise<boolean> {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: `You are an intent classifier for an e-commerce chatbot. Determine if the user wants to see/search for products.
 
-  // Keywords that indicate user wants to see products
-  const searchKeywords = [
-    'show me', 'find me', 'looking for', 'need', 'want', 'buy',
-    'recommend', 'suggest', 'what do you have', 'do you have',
-    'any', 'which', 'search', 'browse', 'shop'
-  ];
+Return "true" if the user is:
+- Asking for product recommendations
+- Searching for specific items
+- Browsing products
+- Asking "do you have X"
+- Requesting to see products
+- Shopping for something
 
-  // Check if message contains search keywords
-  const hasSearchKeyword = searchKeywords.some(keyword => lowerMessage.includes(keyword));
+Return "false" if the user is:
+- Just greeting (hi, hello, how are you)
+- Asking general questions about the store
+- Saying thank you
+- Having casual conversation
+- Asking about policies, shipping, returns
 
-  // Exclude casual greetings and non-product questions
-  const isCasualChat =
-    lowerMessage.includes('how are you') ||
-    lowerMessage.includes('hello') ||
-    lowerMessage.includes('hi there') ||
-    lowerMessage.includes('thank you') ||
-    lowerMessage.includes('thanks') ||
-    (lowerMessage.length < 20 && !hasSearchKeyword);
+Respond with ONLY "true" or "false" - nothing else.`
+        },
+        {
+          role: 'user',
+          content: message
+        }
+      ],
+      temperature: 0.1,
+      max_tokens: 10
+    });
 
-  return hasSearchKeyword && !isCasualChat;
+    const result = response.choices[0]?.message?.content?.trim().toLowerCase();
+    return result === 'true';
+  } catch (error) {
+    console.error('Error detecting intent:', error);
+    // Fallback to simple keyword detection if LLM fails
+    const lowerMessage = message.toLowerCase();
+    return lowerMessage.includes('show') ||
+           lowerMessage.includes('find') ||
+           lowerMessage.includes('have') ||
+           lowerMessage.includes('need') ||
+           lowerMessage.includes('want') ||
+           lowerMessage.includes('buy');
+  }
 }
 
 /**
@@ -116,14 +141,14 @@ export async function generateAssistantResponse(
   conversationHistory: ChatMessage[] = []
 ): Promise<AssistantResponse> {
   try {
-    // Determine if this is a product search query
-    const shouldShowProducts = isProductSearchQuery(userMessage);
+    // Determine if this is a product search query using LLM
+    const shouldShowProducts = await isProductSearchQuery(userMessage);
     console.log('🔍 Product Search Detection:', { userMessage, shouldShowProducts });
 
     // Search for relevant products with similarity threshold
-    // minSimilarity: 0.5 means only return products with 50%+ similarity
+    // minSimilarity: 0.3 means only return products with 30%+ similarity
     // Lower threshold allows more flexible matching for general queries
-    const searchResults = await searchProducts(userMessage, 5, 0.5);
+    const searchResults = await searchProducts(userMessage, 5, 0.3);
     console.log('🔍 Search Results:', { count: searchResults.length, results: searchResults.map(r => ({ title: r.metadata.title, similarity: r.similarity })) });
 
     // Only return products if user is actively searching for them

@@ -200,13 +200,13 @@ export async function getEmbeddingCount(): Promise<number> {
  *
  * @param query - The search query
  * @param topK - Maximum number of results to return
- * @param minSimilarity - Minimum similarity threshold (0-1). Default: 0.5
+ * @param minSimilarity - Minimum similarity threshold (0-1). Default: 0.3
  * @returns Array of products that match the query above the similarity threshold
  */
 export async function searchProducts(
   query: string,
   topK: number = 5,
-  minSimilarity: number = 0.5
+  minSimilarity: number = 0.3
 ): Promise<ProductEmbedding[]> {
   try {
     const index = await getOrCreateIndex();
