@@ -344,7 +344,7 @@ export default function AdminDashboard() {
                         <div
                           className="h-2 rounded-full bg-blue-500"
                           style={{
-                            width: `${(item.count / analytics.topSearches[0].count) * 100}%`,
+                            width: `${analytics.topSearches[0] ? (item.count / analytics.topSearches[0].count) * 100 : 0}%`,
                           }}
                         ></div>
                       </div>
@@ -379,7 +379,7 @@ export default function AdminDashboard() {
                         <div
                           className="h-2 rounded-full bg-red-500"
                           style={{
-                            width: `${(item.count / analytics.topMissing[0].count) * 100}%`,
+                            width: `${analytics.topMissing[0] ? (item.count / analytics.topMissing[0].count) * 100 : 0}%`,
                           }}
                         ></div>
                       </div>
