@@ -136,6 +136,42 @@ Respond with ONLY "true" or "false" - nothing else.`
 /**
  * Generate a response using the LLM with product context
  */
+/**
+ * Expand semantic queries to include related terms
+ * E.g., "winter collection" → "winter warm hoodie fleece cold weather"
+ */
+function expandSemanticQuery(query: string): string {
+  const lowerQuery = query.toLowerCase();
+  let expandedQuery = query;
+
+  // Winter-related expansion
+  if (lowerQuery.includes('winter') || lowerQuery.includes('cold')) {
+    expandedQuery += ' warm hoodie fleece jacket beanie cold weather';
+  }
+
+  // Summer-related expansion
+  if (lowerQuery.includes('summer') || lowerQuery.includes('hot')) {
+    expandedQuery += ' lightweight breathable t-shirt tank top';
+  }
+
+  // Fall/Autumn expansion
+  if (lowerQuery.includes('fall') || lowerQuery.includes('autumn')) {
+    expandedQuery += ' hoodie jacket layering';
+  }
+
+  // Spring expansion
+  if (lowerQuery.includes('spring')) {
+    expandedQuery += ' lightweight jacket hoodie';
+  }
+
+  // Collection/catalog queries
+  if (lowerQuery.includes('collection') || lowerQuery.includes('catalog') || lowerQuery.includes('products')) {
+    expandedQuery += ' clothing accessories apparel';
+  }
+
+  return expandedQuery;
+}
+
 export async function generateAssistantResponse(
   userMessage: string,
   conversationHistory: ChatMessage[] = []
@@ -145,10 +181,14 @@ export async function generateAssistantResponse(
     const shouldShowProducts = await isProductSearchQuery(userMessage);
     console.log('🔍 Product Search Detection:', { userMessage, shouldShowProducts });
 
+    // Expand query with semantic terms for better matching
+    const expandedQuery = expandSemanticQuery(userMessage);
+    console.log('🔍 Query Expansion:', { original: userMessage, expanded: expandedQuery });
+
     // Search for relevant products with similarity threshold
     // minSimilarity: 0.3 means only return products with 30%+ similarity
     // Lower threshold allows more flexible matching for general queries
-    const searchResults = await searchProducts(userMessage, 5, 0.3);
+    const searchResults = await searchProducts(expandedQuery, 5, 0.3);
     console.log('🔍 Search Results:', { count: searchResults.length, results: searchResults.map(r => ({ title: r.metadata.title, similarity: r.similarity })) });
 
     // Only return products if user is actively searching for them
@@ -225,17 +265,30 @@ ${idx + 1}. **${p.metadata.title}** - ${p.metadata.price}
 }
 
 /**
- * Generate a streaming response (for future enhancement)
+ * Generate a streaming response with real-time token streaming
  */
 export async function* generateStreamingResponse(
   userMessage: string,
   conversationHistory: ChatMessage[] = []
-): AsyncGenerator<string> {
+): AsyncGenerator<{ type: 'token' | 'products' | 'done'; content?: string; products?: ProductEmbedding[] }> {
   try {
-    const relevantProducts = await searchProducts(userMessage, 5);
+    // Detect intent and search for products
+    const shouldShowProducts = await isProductSearchQuery(userMessage);
+    const expandedQuery = expandSemanticQuery(userMessage);
 
-    const productContext = relevantProducts.length > 0
-      ? `\n\n**AVAILABLE PRODUCTS (Most Relevant First):**\n${relevantProducts
+    console.log('🔍 Streaming - Product Search Detection:', { userMessage, shouldShowProducts });
+    console.log('🔍 Streaming - Query Expansion:', { original: userMessage, expanded: expandedQuery });
+
+    const searchResults = await searchProducts(expandedQuery, 5, 0.3);
+    const relevantProducts = searchResults;
+
+    console.log('🔍 Streaming - Search Results:', { count: searchResults.length, results: searchResults.map(p => ({ title: p.metadata.title, similarity: p.similarity })) });
+    console.log('🔍 Streaming - Relevant Products to Return:', { count: relevantProducts.length });
+
+    let productContext = '';
+
+    if (shouldShowProducts && relevantProducts.length > 0) {
+      productContext = `\n\n**AVAILABLE PRODUCTS (Most Relevant First):**\n${relevantProducts
           .map(
             (p, idx) => `
 ${idx + 1}. **${p.metadata.title}** - ${p.metadata.price}
@@ -243,13 +296,22 @@ ${idx + 1}. **${p.metadata.title}** - ${p.metadata.price}
    💰 Price: ${p.metadata.price}
    ✅ In Stock: ${p.metadata.availableForSale ? 'Yes' : 'No (Out of Stock)'}
    🏷️ Categories: ${p.metadata.tags.join(', ')}
-   📊 Relevance Score: ${((p.similarity || 0) * 100).toFixed(1)}%
+   🔗 Handle: ${p.productHandle}
 `
           )
           .join('\n')}
 ---
-**Instructions:** Use the above products to answer the user's question. Mention specific product names, prices, and key features.`
-      : '\n\n**NO PRODUCTS FOUND**\nNo products match this query. Suggest alternatives or ask clarifying questions.';
+**STRICT INSTRUCTIONS:**
+- ONLY recommend products from the list above
+- Use EXACT product names and prices as shown
+- DO NOT invent or mention any other products
+- Explain why these specific products match the user's needs
+- Product cards will be shown automatically`;
+    } else if (shouldShowProducts && relevantProducts.length === 0) {
+      productContext = '\n\n**NO PRODUCTS FOUND**\n**CRITICAL:** No products match this query. You MUST tell the user we don\'t have matching products. Politely suggest they try different keywords, browse our full catalog at /products, or ask about available categories. DO NOT make up or suggest products that don\'t exist.';
+    } else {
+      productContext = '\n\n**CASUAL CONVERSATION**\nThe user is not looking for products right now. Just have a friendly conversation. Do not mention or recommend any products unless they specifically ask for them.';
+    }
 
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       {
@@ -270,19 +332,29 @@ ${idx + 1}. **${p.metadata.title}** - ${p.metadata.price}
       model: 'gpt-4o-mini',
       messages,
       temperature: 0.7,
-      max_tokens: 800, // Increased for more detailed responses
+      max_tokens: 800,
       stream: true,
     });
 
+    // Stream tokens
     for await (const chunk of stream) {
       const content = chunk.choices[0]?.delta?.content;
       if (content) {
-        yield content;
+        yield { type: 'token', content };
       }
     }
+
+    // Send products after streaming is done
+    if (relevantProducts.length > 0) {
+      yield { type: 'products', products: relevantProducts };
+    }
+
+    // Signal completion
+    yield { type: 'done' };
   } catch (error) {
     console.error('Error generating streaming response:', error);
-    yield 'I apologize, but I encountered an error. Please try again.';
+    yield { type: 'token', content: 'I apologize, but I encountered an error. Please try again.' };
+    yield { type: 'done' };
   }
 }
 

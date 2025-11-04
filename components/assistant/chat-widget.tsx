@@ -1,6 +1,5 @@
 'use client';
 
-import LoadingDots from 'components/loading-dots';
 import { ChatMessage } from 'lib/ai/assistant';
 import { useEffect, useRef, useState } from 'react';
 import { ProductCard } from './product-card';
@@ -110,37 +109,98 @@ export function ChatWidget() {
     setInput('');
     setIsLoading(true);
 
+    // Create a placeholder message for streaming
+    const assistantMessageId = (Date.now() + 1).toString();
+    const assistantMessage: Message = {
+      id: assistantMessageId,
+      role: 'assistant',
+      content: '',
+      products: [],
+    };
+    setMessages(prev => [...prev, assistantMessage]);
+
     try {
-      const response = await fetch('/api/assistant/chat', {
+      const response = await fetch('/api/assistant/chat-stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: input,
+          message: userMessage.content,
           history: messages.map(m => ({ role: m.role, content: m.content })),
           sessionId,
         }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Failed to get response');
+      }
 
-      if (data.success) {
-        const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: data.message,
-          products: data.products,
-        };
-        setMessages(prev => [...prev, assistantMessage]);
-      } else {
-        throw new Error(data.error);
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (!reader) {
+        throw new Error('No response body');
+      }
+
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = JSON.parse(line.slice(6));
+
+            if (data.type === 'token') {
+              // Append token to the assistant message
+              setMessages(prev =>
+                prev.map(msg =>
+                  msg.id === assistantMessageId
+                    ? { ...msg, content: msg.content + data.content }
+                    : msg
+                )
+              );
+            } else if (data.type === 'products') {
+              // Add products to the assistant message
+              setMessages(prev =>
+                prev.map(msg =>
+                  msg.id === assistantMessageId
+                    ? { ...msg, products: data.products }
+                    : msg
+                )
+              );
+            } else if (data.type === 'done') {
+              // Update session ID
+              if (data.sessionId) {
+                setSessionId(data.sessionId);
+              }
+            } else if (data.type === 'error') {
+              // Handle error
+              setMessages(prev =>
+                prev.map(msg =>
+                  msg.id === assistantMessageId
+                    ? { ...msg, content: data.content }
+                    : msg
+                )
+              );
+            }
+          }
+        }
       }
     } catch (error) {
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      console.error('Error sending message:', error);
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === assistantMessageId
+            ? { ...msg, content: 'Sorry, I encountered an error. Please try again.' }
+            : msg
+        )
+      );
     } finally {
       setIsLoading(false);
     }
@@ -158,15 +218,20 @@ export function ChatWidget() {
       {/* Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-transform hover:scale-110 hover:bg-blue-700"
+        className="group fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-lg transition-all hover:shadow-2xl hover:scale-110 active:scale-95"
         aria-label="Open chat"
       >
+        {/* Pulse animation ring when closed */}
+        {!isOpen && (
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+        )}
+
         {isOpen ? (
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-6 w-6 relative z-10 transition-transform group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-6 w-6 relative z-10 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
           </svg>
         )}
@@ -205,11 +270,19 @@ export function ChatWidget() {
             )}
 
             {isInitializing && (
-              <div className="flex flex-col items-center justify-center h-full">
-                <LoadingDots className="bg-neutral-600 dark:bg-neutral-400" />
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Loading product catalog...
-                </p>
+              <div className="flex flex-col items-center justify-center h-full gap-4">
+                <div className="relative">
+                  <div className="h-16 w-16 rounded-full border-4 border-blue-200 dark:border-blue-900"></div>
+                  <div className="absolute top-0 h-16 w-16 animate-spin rounded-full border-4 border-transparent border-t-blue-600 dark:border-t-blue-400"></div>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                    Loading product catalog...
+                  </p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                    Preparing AI assistant
+                  </p>
+                </div>
               </div>
             )}
 
@@ -228,31 +301,39 @@ export function ChatWidget() {
                   {message.role === 'user' ? (
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   ) : (
-                    <p
-                      className="text-sm whitespace-pre-wrap"
-                      dangerouslySetInnerHTML={{ __html: formatMessageContent(message.content) }}
-                    />
+                    <div className="text-sm whitespace-pre-wrap">
+                      <span
+                        dangerouslySetInnerHTML={{ __html: formatMessageContent(message.content) }}
+                      />
+                      {/* Show cursor while streaming (empty content means still loading) */}
+                      {isLoading && message.content === '' && (
+                        <span className="inline-block w-1.5 h-4 ml-0.5 bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                      )}
+                      {isLoading && message.content !== '' && (
+                        <span className="inline-block w-1.5 h-4 ml-0.5 bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                      )}
+                    </div>
                   )}
                 </div>
 
                 {/* Product Cards */}
                 {message.products && message.products.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    {message.products.slice(0, 3).map((product) => (
-                      <ProductCard key={product.productId} product={product} />
+                    {message.products.slice(0, 3).map((product, index) => (
+                      <div
+                        key={product.productId}
+                        className="animate-in fade-in slide-in-from-bottom-4"
+                        style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
+                      >
+                        <ProductCard product={product} />
+                      </div>
                     ))}
                   </div>
                 )}
               </div>
             ))}
 
-            {isLoading && (
-              <div className="mb-4 text-left">
-                <div className="inline-block rounded-lg bg-neutral-100 p-3 dark:bg-neutral-800">
-                  <LoadingDots className="bg-neutral-600 dark:bg-neutral-400" />
-                </div>
-              </div>
-            )}
+
 
             <div ref={messagesEndRef} />
           </div>
@@ -273,11 +354,15 @@ export function ChatWidget() {
                 <button
                   onClick={sendMessage}
                   disabled={isLoading || !input.trim()}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="group relative rounded-lg bg-blue-600 px-4 py-2 text-white transition-all hover:bg-blue-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
                 >
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                  </svg>
+                  {isLoading ? (
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                  ) : (
+                    <svg className="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>

@@ -54,8 +54,8 @@ export const mockProducts: Product[] = [
     handle: 'acme-hoodie',
     availableForSale: true,
     title: 'Acme Hoodie',
-    description: 'Stay warm with this premium hoodie featuring the Acme logo. Made from soft fleece material.',
-    descriptionHtml: '<p>Stay warm with this premium hoodie featuring the Acme logo. Made from soft fleece material.</p>',
+    description: 'Stay warm with this premium hoodie featuring the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.',
+    descriptionHtml: '<p>Stay warm with this premium hoodie featuring the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.</p>',
     options: [
       {
         id: 'option-3',
@@ -85,7 +85,7 @@ export const mockProducts: Product[] = [
       title: 'Acme Hoodie',
       description: 'Premium hoodie with Acme logo',
     },
-    tags: ['clothing', 'hoodie', 'warm', 'fleece'],
+    tags: ['clothing', 'hoodie', 'warm', 'fleece', 'winter', 'fall', 'cold-weather'],
     updatedAt: new Date().toISOString(),
   },
   {
@@ -449,8 +449,8 @@ export const mockProducts: Product[] = [
     handle: 'acme-zip-hoodie',
     availableForSale: true,
     title: 'Acme Zip Hoodie',
-    description: 'Full-zip hoodie with premium fleece lining. Features front pockets and adjustable drawstring hood.',
-    descriptionHtml: '<p>Full-zip hoodie with premium fleece lining. Features front pockets and adjustable drawstring hood.</p>',
+    description: 'Full-zip hoodie with premium fleece lining. Features front pockets and adjustable drawstring hood. Perfect for winter and cold weather.',
+    descriptionHtml: '<p>Full-zip hoodie with premium fleece lining. Features front pockets and adjustable drawstring hood. Perfect for winter and cold weather.</p>',
     options: [
       {
         id: 'option-12-1',
@@ -485,7 +485,7 @@ export const mockProducts: Product[] = [
       title: 'Acme Zip Hoodie',
       description: 'Full-zip hoodie with premium fleece lining',
     },
-    tags: ['clothing', 'hoodie', 'zip', 'fleece', 'casual', 'warm'],
+    tags: ['clothing', 'hoodie', 'zip', 'fleece', 'casual', 'warm', 'winter', 'cold-weather'],
     updatedAt: new Date().toISOString(),
   },
   {
@@ -493,8 +493,8 @@ export const mockProducts: Product[] = [
     handle: 'acme-pullover-hoodie',
     availableForSale: true,
     title: 'Acme Pullover Hoodie',
-    description: 'Classic pullover hoodie with kangaroo pocket. Ultra-soft fleece keeps you warm and cozy.',
-    descriptionHtml: '<p>Classic pullover hoodie with kangaroo pocket. Ultra-soft fleece keeps you warm and cozy.</p>',
+    description: 'Classic pullover hoodie with kangaroo pocket. Ultra-soft fleece keeps you warm and cozy. Perfect for winter and cold weather.',
+    descriptionHtml: '<p>Classic pullover hoodie with kangaroo pocket. Ultra-soft fleece keeps you warm and cozy. Perfect for winter and cold weather.</p>',
     options: [
       {
         id: 'option-13-1',
@@ -529,7 +529,7 @@ export const mockProducts: Product[] = [
       title: 'Acme Pullover Hoodie',
       description: 'Classic pullover hoodie with kangaroo pocket',
     },
-    tags: ['clothing', 'hoodie', 'pullover', 'fleece', 'casual', 'warm'],
+    tags: ['clothing', 'hoodie', 'pullover', 'fleece', 'casual', 'warm', 'winter', 'cold-weather'],
     updatedAt: new Date().toISOString(),
   },
   {
