@@ -16,7 +16,7 @@ export type CartProduct = {
   id: string;
   handle: string;
   title: string;
-  featuredImage: Image;
+  featuredImage: Image | undefined;
 };
 
 export type CartItem = {

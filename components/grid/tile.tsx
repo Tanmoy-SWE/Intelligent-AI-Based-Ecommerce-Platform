@@ -16,7 +16,7 @@ export function GridTileImage({
     currencyCode: string;
     position?: 'bottom' | 'center';
   };
-} & React.ComponentProps<typeof Image>) {
+} & Omit<React.ComponentProps<typeof Image>, 'src'> & { src?: string | import('next/dist/shared/lib/get-img-props').StaticImport }) {
   return (
     <div
       className={clsx(
@@ -34,8 +34,28 @@ export function GridTileImage({
             'transition duration-300 ease-in-out group-hover:scale-105': isInteractive
           })}
           {...props}
+          src={props.src}
         />
-      ) : null}
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
+          <div className="text-center">
+            <div className="text-6xl">
+              {label?.title.includes('T-Shirt') && '👕'}
+              {label?.title.includes('Hoodie') && '🧥'}
+              {label?.title.includes('Cap') && '🧢'}
+              {label?.title.includes('Mug') && '☕'}
+              {label?.title.includes('Bag') && '🎒'}
+              {label?.title.includes('Backpack') && '🎒'}
+              {label?.title.includes('Sticker') && '🏷️'}
+              {label?.title.includes('Cup') && '🥤'}
+              {label?.title.includes('Bottle') && '🍾'}
+              {label?.title.includes('Socks') && '🧦'}
+              {label?.title.includes('Notebook') && '📓'}
+              {!label?.title.match(/(T-Shirt|Hoodie|Cap|Mug|Bag|Backpack|Sticker|Cup|Bottle|Socks|Notebook)/i) && '🛍️'}
+            </div>
+          </div>
+        </div>
+      )}
       {label ? (
         <Label
           title={label.title}
