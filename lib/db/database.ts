@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 
 let db: Database.Database | null = null;
 
@@ -10,9 +10,12 @@ let db: Database.Database | null = null;
 export function getDatabase(): Database.Database {
   if (db) return db;
 
-  // Create data directory if it doesn't exist
-  const dataDir = path.join(process.cwd(), 'data');
-  if (!fs.existsSync(dataDir)) {
+  // Use /tmp on Vercel (serverless), local data directory otherwise
+  const isVercel = process.env.VERCEL === '1';
+  const dataDir = isVercel ? '/tmp' : path.join(process.cwd(), 'data');
+
+  // Create data directory if it doesn't exist (only for local)
+  if (!isVercel && !fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
   }
 
