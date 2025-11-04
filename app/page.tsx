@@ -1,4 +1,5 @@
 import { mockProducts } from 'lib/mock-products';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -18,28 +19,38 @@ function ProductCard({ product }: { product: (typeof mockProducts)[0] }) {
       href={`/product/${product.handle}`}
       className="group relative flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white transition-all hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
-        <div className="flex h-full items-center justify-center p-8">
-          <div className="text-center">
-            <div className="mb-4 text-6xl">
-              {product.title.includes('T-Shirt') && '👕'}
-              {product.title.includes('Hoodie') && '🧥'}
-              {product.title.includes('Cap') && '🧢'}
-              {product.title.includes('Hat') && '🧢'}
-              {product.title.includes('Beanie') && '🧢'}
-              {product.title.includes('Water Bottle') && '💧'}
-              {product.title.includes('Backpack') && '🎒'}
-              {product.title.includes('Bag') && '🎒'}
-              {product.title.includes('Mug') && '☕'}
-              {product.title.includes('Socks') && '🧦'}
-              {product.title.includes('Notebook') && '📓'}
-              {!product.title.match(/T-Shirt|Tee|Hoodie|Cap|Hat|Beanie|Water Bottle|Backpack|Bag|Mug|Socks|Notebook/) && '🛍️'}
+      <div className="relative aspect-square w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+        {product.featuredImage ? (
+          <Image
+            src={product.featuredImage.url}
+            alt={product.featuredImage.altText || product.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900">
+            <div className="text-center">
+              <div className="mb-4 text-6xl">
+                {product.title.includes('T-Shirt') && '👕'}
+                {product.title.includes('Hoodie') && '🧥'}
+                {product.title.includes('Cap') && '🧢'}
+                {product.title.includes('Hat') && '🧢'}
+                {product.title.includes('Beanie') && '🧢'}
+                {product.title.includes('Water Bottle') && '💧'}
+                {product.title.includes('Backpack') && '🎒'}
+                {product.title.includes('Bag') && '🎒'}
+                {product.title.includes('Mug') && '☕'}
+                {product.title.includes('Socks') && '🧦'}
+                {product.title.includes('Notebook') && '📓'}
+                {!product.title.match(/T-Shirt|Tee|Hoodie|Cap|Hat|Beanie|Water Bottle|Backpack|Bag|Mug|Socks|Notebook/) && '🛍️'}
+              </div>
+              <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                {product.title}
+              </p>
             </div>
-            <p className="text-sm font-medium text-neutral-600 dark:text-neutral-300">
-              {product.title}
-            </p>
           </div>
-        </div>
+        )}
         {!product.availableForSale && (
           <div className="absolute inset-0 flex items-center justify-center bg-black/50">
             <span className="text-sm font-semibold text-white">Out of Stock</span>

@@ -35,12 +35,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+T-Shirt',
-      altText: 'Acme T-Shirt',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme T-Shirt',
@@ -74,12 +69,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Hoodie',
-      altText: 'Acme Hoodie',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Hoodie',
@@ -113,12 +103,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Cap',
-      altText: 'Acme Cap',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Cap',
@@ -146,12 +131,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Mug',
-      altText: 'Acme Mug',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Mug',
@@ -185,12 +165,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Backpack',
-      altText: 'Acme Backpack',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Backpack',
@@ -224,12 +199,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Water+Bottle',
-      altText: 'Acme Water Bottle',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Water Bottle',
@@ -257,12 +227,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Notebook',
-      altText: 'Acme Notebook',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Notebook',
@@ -296,12 +261,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Acme+Socks',
-      altText: 'Acme Socks',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Socks',
@@ -341,12 +301,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=V-Neck+Tee',
-      altText: 'Acme V-Neck Tee',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme V-Neck Tee',
@@ -385,12 +340,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Graphic+Tee',
-      altText: 'Acme Graphic Tee',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Graphic Tee',
@@ -429,12 +379,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Long+Sleeve+Tee',
-      altText: 'Acme Long Sleeve Tee',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Long Sleeve Tee',
@@ -474,12 +419,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Zip+Hoodie',
-      altText: 'Acme Zip Hoodie',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Zip Hoodie',
@@ -518,12 +458,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Pullover+Hoodie',
-      altText: 'Acme Pullover Hoodie',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Pullover Hoodie',
@@ -562,12 +497,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Lightweight+Hoodie',
-      altText: 'Acme Lightweight Hoodie',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Lightweight Hoodie',
@@ -602,12 +532,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Snapback+Cap',
-      altText: 'Acme Snapback Cap',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Snapback Cap',
@@ -641,12 +566,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Dad+Hat',
-      altText: 'Acme Dad Hat',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Dad Hat',
@@ -680,12 +600,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Beanie',
-      altText: 'Acme Beanie',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Beanie',
@@ -720,12 +635,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Tote+Bag',
-      altText: 'Acme Tote Bag',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Tote Bag',
@@ -759,12 +669,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Messenger+Bag',
-      altText: 'Acme Messenger Bag',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Messenger Bag',
@@ -799,12 +704,7 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Travel+Mug',
-      altText: 'Acme Travel Mug',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Travel Mug',
@@ -843,18 +743,287 @@ export const mockProducts: Product[] = [
       },
     },
     variants: [],
-    featuredImage: {
-      url: 'https://via.placeholder.com/400x400?text=Sports+Bottle',
-      altText: 'Acme Sports Bottle',
-      width: 400,
-      height: 400,
-    },
+    featuredImage: undefined,
     images: [],
     seo: {
       title: 'Acme Sports Bottle',
       description: 'BPA-free sports bottle with flip-top lid',
     },
     tags: ['accessories', 'drinkware', 'sports', 'gym', 'eco-friendly'],
+    updatedAt: new Date().toISOString(),
+  },
+  // Additional T-Shirt Variations
+  {
+    id: 'mock-22',
+    handle: 'acme-t-shirt-black',
+    availableForSale: true,
+    title: 'Acme T-Shirt - Black',
+    description: 'Classic black cotton t-shirt with the Acme logo. Perfect for everyday wear. Available in all sizes.',
+    descriptionHtml: '<p>Classic black cotton t-shirt with the Acme logo. Perfect for everyday wear. Available in all sizes.</p>',
+    options: [
+      {
+        id: 'option-22-1',
+        name: 'Size',
+        values: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme T-Shirt - Black',
+      description: 'Classic black cotton t-shirt with Acme logo',
+    },
+    tags: ['clothing', 't-shirt', 'casual', 'cotton', 'black', 'short-sleeve'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-23',
+    handle: 'acme-t-shirt-white',
+    availableForSale: true,
+    title: 'Acme T-Shirt - White',
+    description: 'Clean white cotton t-shirt with the Acme logo. Perfect for summer and casual wear. Available in all sizes.',
+    descriptionHtml: '<p>Clean white cotton t-shirt with the Acme logo. Perfect for summer and casual wear. Available in all sizes.</p>',
+    options: [
+      {
+        id: 'option-23-1',
+        name: 'Size',
+        values: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme T-Shirt - White',
+      description: 'Clean white cotton t-shirt with Acme logo',
+    },
+    tags: ['clothing', 't-shirt', 'casual', 'cotton', 'white', 'short-sleeve', 'summer'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-24',
+    handle: 'acme-t-shirt-navy',
+    availableForSale: true,
+    title: 'Acme T-Shirt - Navy Blue',
+    description: 'Navy blue cotton t-shirt with the Acme logo. Perfect for everyday wear. Available in all sizes.',
+    descriptionHtml: '<p>Navy blue cotton t-shirt with the Acme logo. Perfect for everyday wear. Available in all sizes.</p>',
+    options: [
+      {
+        id: 'option-24-1',
+        name: 'Size',
+        values: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '25.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme T-Shirt - Navy Blue',
+      description: 'Navy blue cotton t-shirt with Acme logo',
+    },
+    tags: ['clothing', 't-shirt', 'casual', 'cotton', 'navy', 'blue', 'short-sleeve'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-25',
+    handle: 'acme-long-sleeve-tee-gray',
+    availableForSale: true,
+    title: 'Acme Long Sleeve T-Shirt - Gray',
+    description: 'Comfortable gray long sleeve t-shirt with the Acme logo. Perfect for cooler weather and layering.',
+    descriptionHtml: '<p>Comfortable gray long sleeve t-shirt with the Acme logo. Perfect for cooler weather and layering.</p>',
+    options: [
+      {
+        id: 'option-25-1',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '32.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '32.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme Long Sleeve T-Shirt - Gray',
+      description: 'Gray long sleeve t-shirt with Acme logo',
+    },
+    tags: ['clothing', 't-shirt', 'long-sleeve', 'cotton', 'gray', 'fall', 'layering'],
+    updatedAt: new Date().toISOString(),
+  },
+  // Additional Hoodie Variations
+  {
+    id: 'mock-26',
+    handle: 'acme-hoodie-black',
+    availableForSale: true,
+    title: 'Acme Hoodie - Black',
+    description: 'Premium black hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.',
+    descriptionHtml: '<p>Premium black hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.</p>',
+    options: [
+      {
+        id: 'option-26-1',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme Hoodie - Black',
+      description: 'Premium black hoodie with Acme logo',
+    },
+    tags: ['clothing', 'hoodie', 'warm', 'fleece', 'winter', 'fall', 'cold-weather', 'black'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-27',
+    handle: 'acme-hoodie-gray',
+    availableForSale: true,
+    title: 'Acme Hoodie - Heather Gray',
+    description: 'Cozy heather gray hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.',
+    descriptionHtml: '<p>Cozy heather gray hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.</p>',
+    options: [
+      {
+        id: 'option-27-1',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme Hoodie - Heather Gray',
+      description: 'Cozy heather gray hoodie with Acme logo',
+    },
+    tags: ['clothing', 'hoodie', 'warm', 'fleece', 'winter', 'fall', 'cold-weather', 'gray'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-28',
+    handle: 'acme-hoodie-navy',
+    availableForSale: true,
+    title: 'Acme Hoodie - Navy Blue',
+    description: 'Classic navy blue hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.',
+    descriptionHtml: '<p>Classic navy blue hoodie with the Acme logo. Made from soft fleece material. Perfect for winter, fall, and cold weather.</p>',
+    options: [
+      {
+        id: 'option-28-1',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '55.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme Hoodie - Navy Blue',
+      description: 'Classic navy blue hoodie with Acme logo',
+    },
+    tags: ['clothing', 'hoodie', 'warm', 'fleece', 'winter', 'fall', 'cold-weather', 'navy', 'blue'],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'mock-29',
+    handle: 'acme-zip-hoodie-black',
+    availableForSale: true,
+    title: 'Acme Zip Hoodie - Black',
+    description: 'Premium black zip-up hoodie with the Acme logo. Full-length zipper for easy on/off. Perfect for winter and cold weather.',
+    descriptionHtml: '<p>Premium black zip-up hoodie with the Acme logo. Full-length zipper for easy on/off. Perfect for winter and cold weather.</p>',
+    options: [
+      {
+        id: 'option-29-1',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL', 'XXL'],
+      },
+    ],
+    priceRange: {
+      maxVariantPrice: {
+        amount: '65.00',
+        currencyCode: 'USD',
+      },
+      minVariantPrice: {
+        amount: '65.00',
+        currencyCode: 'USD',
+      },
+    },
+    variants: [],
+    featuredImage: undefined,
+    images: [],
+    seo: {
+      title: 'Acme Zip Hoodie - Black',
+      description: 'Premium black zip-up hoodie with Acme logo',
+    },
+    tags: ['clothing', 'hoodie', 'zip-up', 'warm', 'fleece', 'winter', 'cold-weather', 'black'],
     updatedAt: new Date().toISOString(),
   },
 ];

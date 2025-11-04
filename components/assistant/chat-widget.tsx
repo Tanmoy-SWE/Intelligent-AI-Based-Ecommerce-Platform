@@ -318,16 +318,47 @@ export function ChatWidget() {
 
                 {/* Product Cards */}
                 {message.products && message.products.length > 0 && (
-                  <div className="mt-3 space-y-2">
-                    {message.products.slice(0, 3).map((product, index) => (
-                      <div
-                        key={product.productId}
-                        className="animate-in fade-in slide-in-from-bottom-4"
-                        style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'backwards' }}
-                      >
-                        <ProductCard product={product} />
+                  <div className="mt-3 space-y-3">
+                    {/* First Product - "For You" */}
+                    {message.products[0] && (
+                      <div>
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
+                            For You:
+                          </span>
+                          <div className="flex-1 h-px bg-gradient-to-r from-blue-200 to-transparent dark:from-blue-800"></div>
+                        </div>
+                        <div
+                          className="animate-in fade-in slide-in-from-bottom-4"
+                          style={{ animationDelay: '0ms', animationFillMode: 'backwards' }}
+                        >
+                          <ProductCard product={message.products[0]} />
+                        </div>
                       </div>
-                    ))}
+                    )}
+
+                    {/* Additional Products - "You can also look at" */}
+                    {message.products.length > 1 && (
+                      <div>
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                            You can also look at:
+                          </span>
+                          <div className="flex-1 h-px bg-gradient-to-r from-gray-200 to-transparent dark:from-gray-700"></div>
+                        </div>
+                        <div className="space-y-2">
+                          {message.products.slice(1, 3).map((product, index) => (
+                            <div
+                              key={product.productId}
+                              className="animate-in fade-in slide-in-from-bottom-4"
+                              style={{ animationDelay: `${(index + 1) * 100}ms`, animationFillMode: 'backwards' }}
+                            >
+                              <ProductCard product={product} />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
